@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="GENERATOR" content="JustSystems Homepage Builder Version 22.0.5.0 for Windows">
+<meta name="justsystems:DeviceType" content="SmartPhoneV">
+<title>動物園を作ろう</title>
+<style>
+    :root { --main-color: #4a6741; --correct-color: #2e7d32; --wrong-color: #c62828; }
+    body{ font-family: sans-serif; background: #f0f2f0; margin: 0; padding: 20px; }
+    .card{ background: white; padding: 25px; border-radius: 20px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); }
+    h1{ font-size: 1.2rem; color: var(--main-color); text-align: center; }
+    .instruction{ background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 20px; font-size: 0.9rem; line-height: 1.5; border: 1px solid #ddd; }
+    
+    .choice-btn{ 
+        width: 100%; padding: 18px; margin-bottom: 12px; background: white; border: 2px solid #ddd; border-radius: 12px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: all 0.1s ease;
+    }
+    .choice-btn:active { background-color: #e0e0e0; transform: scale(0.97); }
+
+    .audio-btn { padding: 12px 20px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: all 0.1s ease; }
+    .btn-play { background: #4CAF50; color: white; }
+    .btn-play:active { background: #388E3C; transform: scale(0.95); }
+    .btn-stop { background: #f44336; color: white; }
+    .btn-stop:active { background: #d32f2f; transform: scale(0.95); }
+
+    .nav-btn { display: inline-block; padding: 12px 25px; background: #4a6741; color: white; text-decoration: none; border-radius: 25px; font-weight: bold; margin-bottom: 20px; transition: all 0.1s ease; }
+    .nav-btn:active { background: #33482d; transform: scale(0.95); }
+
+    #result-area{ display: none; text-align: center; padding: 20px; border-radius: 15px; margin-top: 10px; }
+    .judge-mark{ font-size: 3rem; font-weight: bold; margin-bottom: 10px; }
+    .retry-btn{ margin-top: 15px; padding: 10px 20px; background: #666; color: white; border: none; border-radius: 5px; }
+    .retry-btn:active { background: #444; transform: scale(0.95); }
+</style>
+</head>
+<body>
+
+<div id="game-screen" class="card">
+    <h1> クロサイからの依頼 その2</h1>
+    <br>
+    ----もし、この大きな植木屋さんが仕事をしなくなったら森はどうなるのでしょうか。サバンナはうっそうとした藪になってしまうのではないでしょうか！
+    それは大変!  何が大変？<br>
+    <br>
+    <div class="instruction">  <strong>【問題】 </strong>サバンナが藪になってしまうと、何が起きるでしょうか。以下の三つの内、間違っているものが一つあります。 </div>
+    
+    <button id="btn-choice1" class="choice-btn" onclick="selectChoice(1)">ライオンやチーターが困る</button>
+    <button id="btn-choice2" class="choice-btn" onclick="selectChoice(2)">感染症が広がる</button>
+    <button id="btn-choice3" class="choice-btn" onclick="selectChoice(3)">地球の自転が早くなる</button>
+
+    <div id="result-area">
+        <div id="mark" class="judge-mark"></div>
+        <div id="comment"></div>
+        <button id="retry" class="retry-btn" onclick="location.reload()">もう一度解く</button>
+    </div>
+</div>
+
+<div id="speech-text2" style="display: none;">
+    クロサイ は、じめん の くさ を たべる シロサイ とは ちがって、おもに ひくい き の えだ や は、かじつ を たべる ので、サバンナ が き で うめつくされる のを ふせいでお います。
+    だから、もし クロサイ が いなく なると、ひくい き が のびほうだい に なって みとおし の わるい うっそう と した やぶ に かわって しまいます。
+    すると、ひろい 草原 を 好む シマウマ や ガゼル、それらを かる ライオン や チーター といった ほかの どうぶつたち が いきづらく なって しまう の です。
+    そして、やぶ を 好む ツェツェバエ などの こんちゅう の せいそくいき が ひろがり、ねむりびょう などの かんせんしょう の きょうい が ひろがって しまいます。
+</div>
+
+<script>
+function playText(id) {
+    window.speechSynthesis.cancel();
+    const element = document.getElementById(id);
+    if (element) {
+        const utterance = new SpeechSynthesisUtterance(element.innerText);
+        utterance.lang = 'ja-JP';
+        utterance.rate = 0.95;
+        window.speechSynthesis.speak(utterance);
+    }
+}
+
+function stopText() {
+    window.speechSynthesis.cancel();
+}
+
+function selectChoice(choice) {
+    const selectedBtn = document.getElementById('btn-choice' + choice);
+    selectedBtn.style.background = "#d1d1d1";
+    setTimeout(function() {
+        judge(choice);
+    }, 150);
+}
+
+function judge(choice) {
+    const area = document.getElementById('result-area');
+    const mark = document.getElementById('mark');
+    const comment = document.getElementById('comment');
+    document.querySelectorAll('.choice-btn').forEach(b => b.style.display = 'none');
+    area.style.display = 'block';
+
+    if (choice === 3) {
+        area.style.background = "#e8f5e9";
+        area.style.color = "#2e7d32";
+        mark.innerText = "⭕ 正解！";
+        comment.innerHTML = `
+            <strong>「地球の自転が早くなる」は間違いです</strong><br>
+            <div style="font-size: 0.9rem; text-align: left; margin: 15px 0;">
+            ボタンを押すと、以下の解説をスマホが読み上げます（通信費はほとんどかかりません）。<br>
+            是非、次の動物に移動しながら、聞いて、考えてください。<br><br>
+
+            <button onclick="playText('speech-text2')" class="audio-btn btn-play">🔊 お話をきく</button>
+            <button onclick="stopText()" class="audio-btn btn-stop">⏹ 停止</button>
+
+            <br><br>
+             あなたは、クロサイの前にある解説文に気づしました。<br><br>
+            「クロサイは、地面の草を食べるシロサイとは違って、主に低木の枝や葉、果実を食べるので、サバンナが木で埋め尽くされるのを防いでいるのです。
+            だから、もしクロサイがいなくなると、低木が伸び放題になって見通しの悪い鬱蒼とした藪に変わってしまいます。<br>
+            すると、広い草原を好むシマウマやガゼル、それらを狩るライオンやチーターといった他の動物たちが生きづらくなっていまうのです。<br>
+            そして、藪を好むツェツェバエなどの昆虫の生息域が広がり、眠り病などの感染症の脅威がひろがってしまいます。<br>
+             また、クロサイは移動距離が長く、食べた植物の種を糞と一緒に遠くまで運ぶ仕事もしています。種は栄養たっぷりの糞の肥料に包まれて地面に落とされるから、発芽率がとても高いことが知られています。
+            なので、クロサイがいなくなると植物の「種」が運ばれなくなり、特定の植物が新しい土地で子孫を残せなくなり、植物の多様性が失われてしまいます。<br>
+             さらに、クロサイの糞は、生態系の底辺を支えるフンコロガシなどの昆虫にとって最高の食料であり、卵を産み育てる大切な場所です。<br>
+             そして、その昆虫を食べる鳥や小型の爬虫類、さらにそれを食べる肉食動物……という命のつながりがあります。
+            大きなクロサイが消えることは、実は足元にいる数え切れないほどの小さな命のインフラを破壊してしまうのです。<br><br>
+             もしクロサイが絶滅してしまったら、アフリカの生態系はドミノ倒しのようにバランスを崩してしまいます。
+            一度絶滅してしまったら、人間の手で元に戻すのは簡単ではありません。」<br><br>
+             視線を感じてふと顔を上げると、クロサイがこちらを見ていました。まるであなたの心に話しかけているようでした。<br><br>
+
+            ----あなたたちがいなくなると大変なことになるのは、わかりました。ではクロサイさん、あなたたちは、なぜ絶滅しそうなのか。その原因を教えてください。<br><br>
+             そこまで考えて、あなたの頭にもやもやとした疑問が浮かびました。<br><br>
+            --え！？　ひょっとして…
+            </div>
+            <a href="quiz_kurosai03.html" class="nav-btn">つぎへ</a>
+            <a href="manager.html" class="nav-btn">🔙 育てる動物を選ぶ画面に戻る</a>
+        `;
+    } else {
+        area.style.background = "#ffebee";
+        area.style.color = "#c62828";
+        mark.innerText = "❌ ザンネン！";
+        comment.innerHTML = "もう一度考えてみよう";
+    }
+}
+</script>
+</body>
+</html>

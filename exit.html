@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="GENERATOR" content="JustSystems Homepage Builder Version 22.0.5.0 for Windows">
+<meta name="justsystems:DeviceType" content="SmartPhoneV">
+<title>Animal Compass</title>
+
+<style>
+<!--
+
+body{
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  margin: 0;
+  text-align: center;
+  line-height: 1.8;
+  background: #ffffff;
+}
+
+.container{
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+h1{
+  font-size: 28px;
+  margin-bottom: 30px;
+  line-height: 1.4;
+}
+
+h1 .subtitle{
+  font-size: 18px;
+  color: #555;
+  font-weight: normal;
+  display: block;
+  margin-top: 10px;
+}
+
+p{
+  color: #333;
+  margin-bottom: 24px;
+  font-size: 15px;
+}
+
+/* 最後の特別なメッセージ用の枠線 */
+.message-box{
+  background: #f9f9f9;
+  border-left: 4px solid #4CAF50;
+  padding: 15px;
+  margin: 30px 0;
+  border-radius: 4px;
+}
+
+.message-box p{
+  margin-bottom: 15px;
+}
+.message-box p:last-child{
+  margin-bottom: 0;
+}
+
+/* 強調文字 */
+strong{
+  color: #111;
+  background: linear-gradient(transparent 70%, #e8f5e9 70%); /* 優しい緑のアンダーライン効果 */
+}
+
+button{
+  font-size: 16px;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background-color: #4CAF50;
+  color: white;
+  width: 100%;
+  max-width: 300px;
+  display: block;
+  margin: 0 auto 40px;
+}
+
+.links a{
+  display: block;
+  padding: 14px;
+  margin: 10px 0;
+  text-decoration: none;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  color: #333;
+  background: #fafafa;
+}
+
+.links a:hover{
+  background: #f0f0f0;
+}
+-->
+</style>
+</head>
+
+<body>
+<div class="container">
+  <h1>Socio-Zoo <span class="subtitle">出口<br>～Animal Compassをその手に～</span>
+  </h1>
+
+  <!-- 読み上げ対象のテキストエリア -->
+  <div id="text" style="text-align: left;">
+    <p>　今この瞬間にも、地球のどこかで生き物たちは静かに、しかし確実に姿を消し続けています。IUCN（国際自然保護連合）が評価した約16万種のうち、4万種以上がすでに絶滅の危機にあると判定されています。この猛スピードの絶滅にブレーキをかける責任があるのは、その原因を作ったわたしたち人間です。<br>
+    　だからこそ、次に絶滅する危機にある動物たちの声を聞いて、一刻も早く『未来の社会』を設計しなければいけません。<br>
+    　 これまで人間は、自然を壊すスピードを『少しだけ遅くしよう（マイナスを減らそう）』という守りばかりを考えてきました。でも、それではもう間に合わない。いま世界が目指し始めている新しい約束、それが『<b>ネイチャーポジティブ（自然再興）</b>』です。<br>
+    　単に絶滅のスピードを緩めるだけではありません。 自然の損失そのものに歯止めをかけ、 失われた生き物たちの豊かなつながりを、わたしたち人間の知恵と設計によって『プラスに増やして、回復させていこう』という挑戦です。<br>
+    　 「人間が便利に暮らしながら、同時に動物たちの居場所も増やしていく。 そんなむずかしい未来を、どう設計すればいいのでしょうか。そもそも、それで十分なのでしょうか。<br>
+    　その答えを探すために、あなたに手渡したいものがあります。それが、動物たちの視点を道標にする<b>『アニマル・コンパス（動物の羅針盤）』</b>です。 人間の都合だけで考えるのをやめて、今日あなたがソシオー・ズーで学んだ『動物たちの声なき声、生態系の中で果たしている大切な役割』をコンパスの針にしてみるのです。彼らの想いが指し示す方向へ、私たちの街や暮らしのルールを設計し直すとしたら……？</p>
+    <div class="message-box"><strong>『アニマル・コンパス』は動物の数だけあります。</strong>
+      <p>コウノトリが示す未来と、サンゴが示す未来は違います。 ライオンが願う社会と、ミツバチが願う社会も違います。 だから未来には、ひとつの正解はありません。
+      いろいろな動物園や水族館を訪ねて、たくさんの『アニマル・コンパス』を集めてください。<br>
+      動物たちの声を重ね合わせた先に、人間と自然がともに豊かになる未来への道筋が見えてくるかもしれません。</p>
+      <p>みなさんがつくる未来を楽しみにしています。</p>
+    </div>
+  </div>
+
+  <hr style="border: 0; border-top: 1px solid #eee; margin: 40px 0;">
+
+  <div class="links">
+    <a href="index.html">トップページに戻る</a>
+  </div>
+
+  <script>
+  function readText() {
+    const text = document.getElementById("text").innerText;
+    const uttr = new SpeechSynthesisUtterance(text);
+    uttr.lang = "ja-JP";
+    speechSynthesis.speak(uttr);
+  }
+  </script>
+
+</div>
+</body>
+</html>

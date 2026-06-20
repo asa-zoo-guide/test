@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="GENERATOR" content="JustSystems Homepage Builder Version 22.0.5.0 for Windows">
+<meta name="justsystems:DeviceType" content="SmartPhoneV">
+<title>動物を救おう</title>
+<style>
+    :root { --main-color: #4a6741; --correct-color: #2e7d32; --wrong-color: #c62828; }
+    body{ font-family: sans-serif; background: #f0f2f0; margin: 0; padding: 20px; }
+    .card{ background: white; padding: 25px; border-radius: 20px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); }
+    h1{ font-size: 1.2rem; color: var(--main-color); text-align: center; }
+    .instruction{ background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 20px; font-size: 0.9rem; line-height: 1.5; border: 1px solid #ddd; }
+    
+    .choice-btn{ 
+        width: 100%; padding: 18px; margin-bottom: 12px; background: white; border: 2px solid #ddd; border-radius: 12px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: all 0.1s ease;
+    }
+    .choice-btn:active { background-color: #e0e0e0; transform: scale(0.97); }
+
+    .audio-btn { padding: 12px 20px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: all 0.1s ease; }
+    .btn-play { background: #4CAF50; color: white; }
+    .btn-play:active { background: #388E3C; transform: scale(0.95); }
+    .btn-stop { background: #f44336; color: white; }
+    .btn-stop:active { background: #d32f2f; transform: scale(0.95); }
+
+    .nav-btn { display: inline-block; padding: 12px 25px; background: #4a6741; color: white; text-decoration: none; border-radius: 25px; font-weight: bold; margin-bottom: 20px; transition: all 0.1s ease; }
+    .nav-btn:active { background: #33482d; transform: scale(0.95); }
+
+    #result-area{ display: none; text-align: center; padding: 20px; border-radius: 15px; margin-top: 10px; }
+    .judge-mark{ font-size: 3rem; font-weight: bold; margin-bottom: 10px; }
+    .retry-btn{ margin-top: 15px; padding: 10px 20px; background: #666; color: white; border: none; border-radius: 5px; }
+    .retry-btn:active { background: #444; transform: scale(0.95); }
+</style>
+</head>
+<body>
+
+<div id="game-screen" class="card">
+    <h1> クロサイからの依頼 その3</h1>
+    ---ひょっとして、その原因は私たち人間にあるのでは？<br><br>
+
+    <div class="instruction">
+        <strong>【問題】</strong><br>
+        クロサイが絶滅の危機に瀕している原因として間違っているものはどれでしょう。
+    </div>
+    
+    <button id="btn-choice1" class="choice-btn" onclick="selectChoice(1)">密漁</button>
+    <button id="btn-choice2" class="choice-btn" onclick="selectChoice(2)">サバンナ開発</button>
+    <button id="btn-choice3" class="choice-btn" onclick="selectChoice(3)">ナイルワニの大繁殖</button>
+
+    <div id="result-area">
+        <div id="mark" class="judge-mark"></div>
+        <div id="comment"></div>
+        <button id="retry" class="retry-btn" onclick="location.reload()">もう一度解く</button>
+    </div>
+</div>
+
+<div id="speech-text2" style="display: none;">
+    クロサイ の いのち を もっとも おびやかして いる のが、とくちょうてき な あの つの を ねらった ようしゃない みつりょう です。
+    また、アフリカ の じんこう ぞうか や けいざい かいはつ に ともない、かれら が くらす サバンナ が のうち に かえられて しまった こと も だいダメージ です。
+</div>
+
+<script>
+function playText(id) {
+    window.speechSynthesis.cancel();
+    const element = document.getElementById(id);
+    if (element) {
+        const utterance = new SpeechSynthesisUtterance(element.innerText);
+        utterance.lang = 'ja-JP';
+        utterance.rate = 0.95;
+        window.speechSynthesis.speak(utterance);
+    }
+}
+
+function stopText() {
+    window.speechSynthesis.cancel();
+}
+
+function selectChoice(choice) {
+    const selectedBtn = document.getElementById('btn-choice' + choice);
+    selectedBtn.style.background = "#d1d1d1";
+    setTimeout(function() {
+        judge(choice);
+    }, 150);
+}
+
+function judge(choice) {
+    const area = document.getElementById('result-area');
+    const mark = document.getElementById('mark');
+    const comment = document.getElementById('comment');
+    document.querySelectorAll('.choice-btn').forEach(b => b.style.display = 'none');
+    area.style.display = 'block';
+
+    if (choice === 3) {
+        area.style.background = "#e8f5e9";
+        area.style.color = "#2e7d32";
+        mark.innerText = "⭕ 正解！";
+        comment.innerHTML = `
+            <strong>「ナイルワニの大繁殖」という事実はありません</strong><br>
+            <div style="font-size: 0.9rem; text-align: left; margin: 15px 0;">
+            ボタンを押すと、以下の解説をスマホが読み上げます（通信費はほとんどかかりません）。<br>
+            是非、次の動物に移動しながら、聞いて、考えてください。<br><br>
+
+            <button onclick="playText('speech-text2')" class="audio-btn btn-play">🔊 お話をきく</button>
+            <button onclick="stopText()" class="audio-btn btn-stop">⏹ 停止</button>
+            <br><br>
+            ナイルワニがクロサイを襲うケースは稀にはあるけど、クロサイを絶滅に追い込むほど大繁殖はしていません。
+            <hr><br>
+             あなたは、クロサイの前に、絶滅に関する解説文を見つけました。<br><br>
+            「クロサイの命を最も脅かしているのが、特徴的なあの「角」を狙った容赦ない密猟です。クロサイの角は「解熱や解毒に効く万能薬」と信じられていたり、一部の国で装飾品として珍重されたりしてきた歴史があります。実はサイの角は人間の爪や髪の毛と同じケラチンという成分でできていて、科学的な薬効は認められていないのに、闇市場では超高値で取引されるため乱獲が止まりません。<br>
+             つぎに、アフリカの人口増加や経済開発にともなって、彼らが暮らすサバンナや低木林が農地・放牧地に変えられてしまったことも大ダメージです。住処を追われるだけでなく、エリアが道路などでバラバラに分断されることで、繁殖のチャンス自体が減ってしまっています。」<br><br>
+            ----人が原因なんですね。密猟ですかあ。密猟？<br><br>
+             あなたの頭に、また疑問が浮かびました。
+            </div>
+            <a href="quiz_kurosai04.html" class="nav-btn">つぎへ</a>
+            <a href="manager.html" class="nav-btn">🔙 育てる動物を選ぶ画面に戻る</a>
+        `;
+    } else {
+        area.style.background = "#ffebee";
+        area.style.color = "#c62828";
+        mark.innerText = "❌ ザンネン！";
+        comment.innerHTML = "もう一度考えてみよう";
+    }
+}
+</script>
+</body>
+</html>

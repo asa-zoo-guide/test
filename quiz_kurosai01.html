@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="GENERATOR" content="JustSystems Homepage Builder Version 22.0.5.0 for Windows">
+<meta name="justsystems:DeviceType" content="SmartPhoneV">
+<title>アニマル・インタープリター</title>
+<style>
+    :root { --main-color: #4a6741; --correct-color: #2e7d32; --wrong-color: #c62828; }
+    body{ font-family: sans-serif; background: #f0f2f0; margin: 0; padding: 20px; }
+    .card{ background: white; padding: 25px; border-radius: 20px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); }
+    h1{ font-size: 1.2rem; color: var(--main-color); text-align: center; }
+    .instruction{ background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 20px; font-size: 0.9rem; line-height: 1.5; border: 1px solid #ddd; }
+    
+    /* 選択肢ボタンの基本スタイル */
+    .choice-btn{ 
+        width: 100%; padding: 18px; margin-bottom: 12px; background: white; 
+        border: 2px solid #ddd; border-radius: 12px; font-size: 1.1rem; font-weight: bold; 
+        cursor: pointer; transition: all 0.1s ease;
+    }
+    /* 選択肢ボタンを押した瞬間の動き */
+    .choice-btn:active {
+        background-color: #e0e0e0;
+        transform: scale(0.97);
+    }
+
+    /* 読み上げボタン・停止ボタンのスタイル */
+    .audio-btn {
+        padding: 12px 20px; border: none; border-radius: 8px; 
+        font-weight: bold; cursor: pointer; transition: all 0.1s ease;
+    }
+    .btn-play { background: #4CAF50; color: white; }
+    .btn-play:active { background: #388E3C; transform: scale(0.95); }
+    
+    /* 停止ボタン */
+    .btn-stop { background: #f44336; color: white; }
+    .btn-stop:active { background: #d32f2f; transform: scale(0.95); }
+
+    /* 次へ・戻るリンクボタンのスタイル */
+    .nav-btn {
+        display: inline-block; padding: 12px 25px; background: #4a6741; 
+        color: white; text-decoration: none; border-radius: 25px; 
+        font-weight: bold; margin-bottom: 20px; transition: all 0.1s ease;
+    }
+    .nav-btn:active { background: #33482d; transform: scale(0.95); }
+
+    #result-area{ display: none; text-align: center; padding: 20px; border-radius: 15px; margin-top: 10px; }
+    .judge-mark{ font-size: 3rem; font-weight: bold; margin-bottom: 10px; }
+    .retry-btn{ margin-top: 15px; padding: 10px 20px; background: #666; color: white; border: none; border-radius: 5px; }
+    .retry-btn:active { background: #444; transform: scale(0.95); }
+</style>
+</head>
+<body>
+
+<div id="game-screen" class="card">
+    <h1>クロサイからの依頼 その1<br>
+    <img src="sai1.jpg" width="300" border="0" height="162"></h1>
+    
+    <button onclick="playText('speech-text1')" class="audio-btn btn-play">🔊 文を読む</button>
+    <button onclick="stopText()" class="audio-btn btn-stop">⏹ 停止</button>
+    <br><br>
+    
+    <div id="speech-text1" style="display: none;">
+        あなた の め の まえ に は いっぴき の どうどう と した クロサイ が、しずか に たたずんで います。
+        ----クロサイ って いう けど、まっくろ では ないん です ね。りっぱ な つの。なかなか つよそう です ね。
+        すると あなた の こころ に だれ か が はなしかけて きました。
+        「わたしたち は、ぜつめつ の きき に ひんして います。どうか たすけて ください。」
+        ----だれ？ ぜつめつ？ たすけて ほしい？
+        いつも、どうぶつえん に くる と、どうぶつたち に はなしかけられて いる よう な き が する あなた は、それほど おどろきません でした。
+        ----ぜつめつ だ とか たすけて とか、おだやか じゃ ない です ね。クロサイ が ぜつめつ すると、なにか たいへん な こと でも おきる って いう の です か？
+        あなた が、クロサイ に め を むける と、ちょうど じかん に なった の か、しょくじ を し基本はじめました。
+        ----おやおや、たすけ を もとめて いた の では なかった の です か。
+        むしゃむしゃ たべて いる の を みて いて、あなた は ある こと に きづきました。
+        【もんだい】
+        クロサイ の しょくじ ほうほう について、ただしい の は どれ でしょう。
+        1 じめん の くさ を すいとる よう に たべて いる
+        2 き を なぎたおして たかい は を たべて いる
+        3 じょうしん を きよう に うごかして えだ を パチンパチン と きる よう に たべて いる
+    </div>
+
+    あなたの目の前には1匹の堂々としたクロサイが、静かにたたずんでいます。<br><br>
+    ----クロサイっていうけど、真っ黒ではないんですね。立派な角。なかなか強そうですね。<br><br>
+ するとあなたの心に誰かが話しかけてきました。<br><br>
+    「私たちは----、絶滅の----危機に----瀕しています。どうか----助けて----ください。」<br><br>
+    ----私たちってクロサイ？　絶滅？ 助けて欲しい？<br><br>
+    いつも、動物園にくると、動物たちに話しかけられているような気がするあなたは、それほど驚きませんでした。<br><br>
+    ----絶滅だとか助けてとか、穏やかじゃないですね。クロサイが絶滅すると、なにか大変なことでも起きるっていうのですか？<br><br>
+    あなたが、クロサイに目を向けると、ちょうど時間になったのか、食事をし始めました。<br><br>
+    ----おやおや、助けを求めていたのではなかったのですか。<br><br>
+    むしゃむしゃ食べているのを見ていて、あなたはあることにきづきました。<br><br>
+
+    <div class="instruction">
+        <strong>【問題】</strong><br>
+        クロサイの食事方法について、正しいのはどれでしょう。
+    </div>
+    
+    <button id="btn-choice1" class="choice-btn" onclick="selectChoice(1)">1 地面の草を吸い取るように食べている</button>
+    <button id="btn-choice2" class="choice-btn" onclick="selectChoice(2)">2 木をなぎ倒して高い葉を食べている</button>
+    <button id="btn-choice3" class="choice-btn" onclick="selectChoice(3)">3 上唇を器用に動かして枝をパチンパチンと切るように食べている</button>
+
+    <div id="result-area">
+        <div id="mark" class="judge-mark"></div>
+        <div id="comment"></div>
+        <button id="retry" class="retry-btn" onclick="location.reload()">もう一度解く</button>
+    </div>
+</div>
+
+<div id="speech-text2" style="display: none;">
+    あなた は、クロサイ は うわくちびる が キュッ と とがって いる こと に きづきました。----たしか シロサイ は しかくかった です ね。
+    クロサイ の とがった うわくちびる は、にんげん の ゆびさき や ハサミ の よう に きよう に うごいて いました。
+    ----なるほど、これ を つかって、クロサイ は 「き の えだ」 や 「ひくい き の は」 を、パチンパチン と せんてい する よう に きよう に ちぎって たべてる の です ね。
+    たしか、くち が しかくくて たいら な シロサイ は、そうじき の よう に じめん の くさ を まとめて すいとる よう に たべて ました。クロサイ は、き を パチパチ きる たんとう なん です ね。
+    もり の うえきや さん、 と いった ところ です か。うえきや さん？
+    ふと、あなた の あたま に ぎもん が うかびました。
+</div>
+
+<script>
+function playText(id) {
+    window.speechSynthesis.cancel();
+    const element = document.getElementById(id);
+    if (element) {
+        const utterance = new SpeechSynthesisUtterance(element.innerText);
+        utterance.lang = 'ja-JP';
+        utterance.rate = 0.95;
+        window.speechSynthesis.speak(utterance);
+    } else {
+        console.error("指定されたIDが見つかりません: " + id);
+    }
+}
+
+function stopText() {
+    window.speechSynthesis.cancel();
+}
+
+function selectChoice(choice) {
+    const selectedBtn = document.getElementById('btn-choice' + choice);
+    selectedBtn.style.background = "#d1d1d1";
+    setTimeout(function() {
+        judge(choice);
+    }, 150);
+}
+
+function judge(choice) {
+    const area = document.getElementById('result-area');
+    const mark = document.getElementById('mark');
+    const comment = document.getElementById('comment');
+    
+    document.querySelectorAll('.choice-btn').forEach(b => b.style.display = 'none');
+    area.style.display = 'block';
+
+    if (choice === 3) {
+        area.style.background = "#e8f5e9";
+        area.style.color = "#2e7d32";
+        mark.innerText = "⭕ 正解！";
+        comment.innerHTML = `
+            <strong>上唇を器用に動かして枝をパチンパチンと切るように食べている</strong><br>
+            <div style="font-size: 0.9rem; text-align: left; margin: 15px 0;">
+            ボタンを押すと、以下の解説をスマホが読み上げます（通信費はほとんどかかりません）。<br>
+            是非、次の動物に移動しながら、聞いて、考えてください。<br><br>
+
+            <button onclick="playText('speech-text2')" class="audio-btn btn-play">🔊 文を読む</button>
+            <button onclick="stopText()" class="audio-btn btn-stop">⏹ 停止</button>
+
+            <br><br>
+             あなたは、クロサイは上唇がキュッと尖っていることに気づきました。<br><br>
+            ----確かシロサイは四角かったですね。<br><br>
+ クロサイの尖った上唇は、人間の指先や「ハサミ」のように器用に動いていました。<br><br>
+            ----なるほど、これを使って、クロサイは「木の枝」や「低木の葉」を、パチンパチンと剪定するように器用にちぎって食べてるのですね。
+            たしか、口が四角くて平らなシロサイは、掃除機のように地面の草をまとめて吸い取るように食べてました。クロサイは、木をパチパチ切る担当なんですね。森の植木屋さん、といったところですか。植木屋さん？<br><br>
+ ふと、あなたの頭に疑問が浮かびました。<br>
+            </div>
+            
+            <a href="quiz_kurosai02.html" class="nav-btn">つぎへ</a>
+            <a href="manager.html" class="nav-btn">🔙 育てる動物を選ぶ画面に戻る</a>
+        `;
+    } else {
+        area.style.background = "#ffebee";
+        area.style.color = "#c62828";
+        mark.innerText = "❌ ザンネン！";
+        comment.innerHTML = "もう一度動物をよく見てみよう";
+    }
+}
+</script>
+</body>
+</html>

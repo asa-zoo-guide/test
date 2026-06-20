@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="GENERATOR" content="JustSystems Homepage Builder Version 22.0.5.0 for Windows">
+<meta name="justsystems:DeviceType" content="SmartPhoneV">
+<title>動物を救おう</title>
+<style>
+<!--
+    :root { --main-color: #4a6741; --correct-color: #2e7d32; --wrong-color: #c62828; }
+    body{
+	font-family: sans-serif; background: #f0f2f0; margin: 0; padding: 20px;
+}
+    .card{
+	background: white; padding: 25px; border-radius: 20px; box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+    h1{
+	font-size: 1.2rem; color: var(--main-color); text-align: center;
+}
+    .instruction{
+	background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 20px; font-size: 0.9rem; line-height: 1.5; border: 1px solid #ddd;
+}
+    
+    .choice-btn{
+	 
+        width: 100%; padding: 18px; margin-bottom: 12px; background: white; border: 2px solid #ddd; border-radius: 12px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: all 0.1s ease;
+    }
+    .choice-btn:active{
+	background-color: #e0e0e0; transform: scale(0.97);
+}
+
+    .audio-btn{
+	padding: 12px 20px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: all 0.1s ease;
+}
+    .btn-play{
+	background: #4CAF50; color: white;
+}
+    .btn-play:active{
+	background: #388E3C; transform: scale(0.95);
+}
+    .btn-stop{
+	background: #f44336; color: white;
+}
+    .btn-stop:active{
+	background: #d32f2f; transform: scale(0.95);
+}
+
+    .nav-btn{
+	display: inline-block; padding: 12px 25px; background: #4a6741; color: white; text-decoration: none; border-radius: 25px; font-weight: bold; margin-bottom: 20px; transition: all 0.1s ease;
+}
+    .nav-btn:active{
+	background: #33482d; transform: scale(0.95);
+}
+
+    #result-area{
+	display: none; text-align: center; padding: 20px; border-radius: 15px; margin-top: 10px;
+}
+    .judge-mark{
+	font-size: 3rem; font-weight: bold; margin-bottom: 10px;
+}
+    .retry-btn{
+	margin-top: 15px; padding: 10px 20px; background: #666; color: white; border: none; border-radius: 5px;
+}
+    .retry-btn:active{
+	background: #444; transform: scale(0.95);
+}
+-->
+</style>
+</head>
+<body>
+
+<div id="game-screen" class="card">
+    <h1> クロサイからの依頼 その4</h1>
+    <br>
+    ---密猟ということは、認められた猟もあるってことですか？ 絶滅危惧種ですよ。猟は全部違法なんじゃないでしょうか！<br><br>
+    <div class="instruction">
+        <strong>【問題】</strong><br>
+        クロサイの狩猟はぜんぶ違法か？
+    </div>
+    
+    <button id="btn-choice1" class="choice-btn" onclick="selectChoice(1)">全部合法</button>
+    <button id="btn-choice2" class="choice-btn" onclick="selectChoice(2)">全部違法</button>
+    <button id="btn-choice3" class="choice-btn" onclick="selectChoice(3)">一部合法</button>
+
+    <div id="result-area">
+        <div id="mark" class="judge-mark"></div>
+        <div id="comment"></div>
+        <button id="retry" class="retry-btn" onclick="location.reload()">もう一度解く</button>
+    </div>
+</div>
+
+<div id="speech-text2" style="display: none;">
+    ぜつめつ しそう な サイ を まもる ため の おかね を かせる ため に、あえて 一部 の サイ を ごうほうてき に ころす という しくみ が せかい には あります。
+    この しくみ は げんざい も せかいてき に さんぴ が わかれて います。
+</div>
+
+<script>
+function playText(id) {
+    window.speechSynthesis.cancel();
+    const element = document.getElementById(id);
+    if (element) {
+        const utterance = new SpeechSynthesisUtterance(element.innerText);
+        utterance.lang = 'ja-JP';
+        utterance.rate = 0.95;
+        window.speechSynthesis.speak(utterance);
+    }
+}
+
+function stopText() {
+    window.speechSynthesis.cancel();
+}
+
+function selectChoice(choice) {
+    const selectedBtn = document.getElementById('btn-choice' + choice);
+    selectedBtn.style.background = "#d1d1d1";
+    setTimeout(function() {
+        judge(choice);
+    }, 150);
+}
+
+function judge(choice) {
+    const area = document.getElementById('result-area');
+    const mark = document.getElementById('mark');
+    const comment = document.getElementById('comment');
+    document.querySelectorAll('.choice-btn').forEach(b => b.style.display = 'none');
+    area.style.display = 'block';
+
+    if (choice === 3) {
+        area.style.background = "#e8f5e9";
+        area.style.color = "#2e7d32";
+        mark.innerText = "⭕ 正解！";
+        comment.innerHTML = `
+            <strong>一部合法</strong><br>
+            <div style="font-size: 0.9rem; text-align: left; margin: 15px 0;">
+            ボタンを押すと、以下の解説をスマホが読み上げます（通信費はほとんどかかりません）。<br>
+            是非、次の動物に移動しながら、聞いて、考えてください。<br><br>
+
+            <button onclick="playText('speech-text2')" class="audio-btn btn-play">🔊 お話をきく</button>
+            <button onclick="stopText()" class="audio-btn btn-stop">⏹ 停止</button>
+            <br><br>
+             あなたは、クロサイの前に、密猟に関する解説文を見つけました。<br><br>
+            「絶滅しそうなサイを『守るためのお金』を稼ぐために、あえて一部のサイを『合法的に殺す』という仕組みが世界にはあります。」<br><br>
+            ---合法的殺すなんて信じられません！ いったいどんな論理なのですか！<br><br>
+            あなたは少し腹を立てながらも、説明文の続きを読みました。<br><br>
+            「ナミビアや南アフリカでは、ワシントン条約（CITES）の枠組みのもとで、クロサイの狩猟権が一部認められています。<br>
+CITESは2004年以降、両国それぞれに対し、年間最大5頭の雄クロサイをトロフィーハンティングの対象とすることを許可する枠を承認しています。
+これは国の上限であり、すべてが必ずオークション形式で売られるわけではなく、政府から直接許可証が販売される場合もあります。<br>
+　対象となるのは、すでに繁殖年齢を過ぎた高齢の雄で、しかも縄張り意識が強く攻撃的になり、まだ繁殖能力のある若い個体を傷つけかねない「問題個体」とされる場合が中心です。
+年齢と行動の両面から選定基準が設けられています。<br>
+　この許可証は、世界の富裕な狩猟愛好家たちによってオークションにかけられ、過去の事例では1頭あたり25万ドルから100万ドル程度（当時のレートでおよそ数千万円から1億円規模）で落札されています。
+金額は年や個体、許可証の出所によって大きく変動します。<br>
+　落札・販売で得られた資金は、密猟監視団（レンジャー）の活動資金、監視機材や車両・ヘリコプターの購入費など、保護活動全般に充てられることが、関係政府や保護団体によって明言されています。<br>
+　狩猟後の肉が地元住民に提供される慣行や、収益の一部が地域コミュニティに還元される事例も報告されていますが、学校・病院の建設に直接充てられるかどうかは個別の案件によって異なります。<br>
+　この仕組みは現在も世界的に賛否が分かれています。反対派は、絶滅危惧種の命に値段をつけて娯楽目的で殺すことの倫理性を問題視し、密猟を助長する誤ったメッセージになりかねないと主張しています。
+一方で、合法な狩猟であっても資金が保護活動に還元されることを評価し、容認はしないまでも保護上の意義を認める立場の団体も存在します。」<br>
+<br>
+----「トロッコ問題」かあ。つまり、何もしなければクロサイが絶滅してしまうという状況をなんとかしないと、このような悲しい事態が続くということですね。<br>
+<br>
+　あなたは、クロサイを見つめました。クロサイは、上唇を上手に動かして、葉っぱを食べています。<br>
+<br>
+----なんとかしないといけませんね。まかせてください。解決方法は必ず考えます。さて、ひとつ質問があるのですが、こんなに辛い話はあなただけなのですか？　他の動物は？<br>
+<br>
+　クロサイは、相変わらず、一心不乱に葉っぱを食べてます。<br>
+<br>
+----そうですね。それは私の仕事ですね。では他の動物たちに会いに行ってきます。ありがとうございました。<br>
+<br>
+　あなたはクロサイに頭をさげると、動物の「声なき声」に耳を澄ませました。<br>
+<br>
+----なにかしら。すごく低い声が聞こえてきます。これは声なのでしょうか。低すぎてほとんど聞こえない。ああ、わかった。あなたはサバンナソウね。私のアニマル・コンパスがそうささやいている。<br>
+<br>
+　あなたは、サバンナゾウの獣舎に向かって、歩き始めました。<br><br>
+            <hr>
+<br>
+             クロサイを絶滅から救うには、どんな方法があるでしょうか。<br><br>
+             これは「あなた」への宿題です。<br><br>
+            </div>
+            <a href="Interpreter.html" class="nav-btn">🔙 会いに行く動物を選ぶ</a>
+        `;
+    } else {
+        area.style.background = "#ffebee";
+        area.style.color = "#c62828";
+        mark.innerText = "❌ ザンネン！";
+        comment.innerHTML = "もう一度考えてみよう";
+    }
+}
+</script>
+</body>
+</html>
