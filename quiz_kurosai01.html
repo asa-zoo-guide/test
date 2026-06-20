@@ -13,31 +13,22 @@
     h1{ font-size: 1.2rem; color: var(--main-color); text-align: center; }
     .instruction{ background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 20px; font-size: 0.9rem; line-height: 1.5; border: 1px solid #ddd; }
     
-    /* 選択肢ボタンの基本スタイル */
     .choice-btn{ 
         width: 100%; padding: 18px; margin-bottom: 12px; background: white; 
         border: 2px solid #ddd; border-radius: 12px; font-size: 1.1rem; font-weight: bold; 
         cursor: pointer; transition: all 0.1s ease;
     }
-    /* 選択肢ボタンを押した瞬間の動き */
-    .choice-btn:active {
-        background-color: #e0e0e0;
-        transform: scale(0.97);
-    }
+    .choice-btn:active { background-color: #e0e0e0; transform: scale(0.97); }
 
-    /* 読み上げボタン・停止ボタンのスタイル */
     .audio-btn {
         padding: 12px 20px; border: none; border-radius: 8px; 
         font-weight: bold; cursor: pointer; transition: all 0.1s ease;
     }
     .btn-play { background: #4CAF50; color: white; }
     .btn-play:active { background: #388E3C; transform: scale(0.95); }
-    
-    /* 停止ボタン */
     .btn-stop { background: #f44336; color: white; }
     .btn-stop:active { background: #d32f2f; transform: scale(0.95); }
 
-    /* 次へ・戻るリンクボタンのスタイル */
     .nav-btn {
         display: inline-block; padding: 12px 25px; background: #4a6741; 
         color: white; text-decoration: none; border-radius: 25px; 
@@ -81,13 +72,13 @@
 
     あなたの目の前には1匹の堂々としたクロサイが、静かにたたずんでいます。<br><br>
     ----クロサイっていうけど、真っ黒ではないんですね。立派な角。なかなか強そうですね。<br><br>
- するとあなたの心に誰かが話しかけてきました。<br><br>
-    「私たちは----、絶滅の----危機に----瀕しています。どうか----助けて----ください。」<br><br>
-    ----私たちってクロサイ？　絶滅？ 助けて欲しい？<br><br>
+    するとあなたの心に誰かが話しかけてきました。<br><br>
+    「私たちは、絶滅の危機に瀕しています。どうか助けてください。」<br><br>
+    ----誰？ 絶滅？ 助けて欲しい？<br><br>
     いつも、動物園にくると、動物たちに話しかけられているような気がするあなたは、それほど驚きませんでした。<br><br>
     ----絶滅だとか助けてとか、穏やかじゃないですね。クロサイが絶滅すると、なにか大変なことでも起きるっていうのですか？<br><br>
     あなたが、クロサイに目を向けると、ちょうど時間になったのか、食事をし始めました。<br><br>
-    ----おやおや、助けを求めていたのではなかったのですか。<br><br>
+    ----おやおや、助けを求めていたのであるのではなかったのですか。<br><br>
     むしゃむしゃ食べているのを見ていて、あなたはあることにきづきました。<br><br>
 
     <div class="instruction">
@@ -116,21 +107,34 @@
 </div>
 
 <script>
+// Android対策：初回の音声呼び出しを安定させるための初期化
+if (typeof window.speechSynthesis !== 'undefined') {
+    window.speechSynthesis.getVoices();
+    if (window.speechSynthesis.onvoiceschanged !== undefined) {
+        window.speechSynthesis.onvoiceschanged = function() { window.speechSynthesis.getVoices(); };
+    }
+}
+
 function playText(id) {
+    if (typeof window.speechSynthesis === 'undefined') return;
     window.speechSynthesis.cancel();
+    
     const element = document.getElementById(id);
     if (element) {
-        const utterance = new SpeechSynthesisUtterance(element.innerText);
-        utterance.lang = 'ja-JP';
-        utterance.rate = 0.95;
-        window.speechSynthesis.speak(utterance);
-    } else {
-        console.error("指定されたIDが見つかりません: " + id);
+        // Androidで声が出なくなるバグを防ぐため、10ミリ秒だけ空けて実行
+        setTimeout(function() {
+            const utterance = new SpeechSynthesisUtterance(element.innerText);
+            utterance.lang = 'ja-JP';
+            utterance.rate = 0.95;
+            window.speechSynthesis.speak(utterance);
+        }, 10);
     }
 }
 
 function stopText() {
-    window.speechSynthesis.cancel();
+    if (typeof window.speechSynthesis !== 'undefined') {
+        window.speechSynthesis.cancel();
+    }
 }
 
 function selectChoice(choice) {
@@ -165,10 +169,10 @@ function judge(choice) {
             <br><br>
              あなたは、クロサイは上唇がキュッと尖っていることに気づきました。<br><br>
             ----確かシロサイは四角かったですね。<br><br>
- クロサイの尖った上唇は、人間の指先や「ハサミ」のように器用に動いていました。<br><br>
+             クロサイの尖った上唇は、人間の指先や「ハサミ」のように器用に動いていました。<br><br>
             ----なるほど、これを使って、クロサイは「木の枝」や「低木の葉」を、パチンパチンと剪定するように器用にちぎって食べてるのですね。
             たしか、口が四角くて平らなシロサイは、掃除機のように地面の草をまとめて吸い取るように食べてました。クロサイは、木をパチパチ切る担当なんですね。森の植木屋さん、といったところですか。植木屋さん？<br><br>
- ふと、あなたの頭に疑問が浮かびました。<br>
+             ふと、あなたの頭に疑問が浮かびました。<br>
             </div>
             
             <a href="quiz_kurosai02.html" class="nav-btn">つぎへ</a>

@@ -61,19 +61,32 @@
 </div>
 
 <script>
+if (typeof window.speechSynthesis !== 'undefined') {
+    window.speechSynthesis.getVoices();
+    if (window.speechSynthesis.onvoiceschanged !== undefined) {
+        window.speechSynthesis.onvoiceschanged = function() { window.speechSynthesis.getVoices(); };
+    }
+}
+
 function playText(id) {
+    if (typeof window.speechSynthesis === 'undefined') return;
     window.speechSynthesis.cancel();
+    
     const element = document.getElementById(id);
     if (element) {
-        const utterance = new SpeechSynthesisUtterance(element.innerText);
-        utterance.lang = 'ja-JP';
-        utterance.rate = 0.95;
-        window.speechSynthesis.speak(utterance);
+        setTimeout(function() {
+            const utterance = new SpeechSynthesisUtterance(element.innerText);
+            utterance.lang = 'ja-JP';
+            utterance.rate = 0.95;
+            window.speechSynthesis.speak(utterance);
+        }, 10);
     }
 }
 
 function stopText() {
-    window.speechSynthesis.cancel();
+    if (typeof window.speechSynthesis !== 'undefined') {
+        window.speechSynthesis.cancel();
+    }
 }
 
 function selectChoice(choice) {
@@ -107,7 +120,7 @@ function judge(choice) {
             ナイルワニがクロサイを襲うケースは稀にはあるけど、クロサイを絶滅に追い込むほど大繁殖はしていません。
             <hr><br>
              あなたは、クロサイの前に、絶滅に関する解説文を見つけました。<br><br>
-            「クロサイの命を最も脅かしているのが、特徴的なあの「角」を狙った容赦ない密猟です。クロサイの角は「解熱や解毒に効く万能薬」と信じられていたり、一部の国で装飾品として珍重されたりしてきた歴史があります。実はサイの角は人間の爪や髪の毛と同じケラチンという成分でできていて、科学的な薬効は認められていないのに、闇市場では超高値で取引されるため乱獲が止まりません。<br>
+            「クロサイの命を最も脅かしているのが、特徴的なあの「角」を狙った容赦ない密猟です。実は、サイの角は人間の爪や髪の毛と同じケラチンという成分でできていて、科学的な薬効は認められていないのに、闇市場では超高値で取引されるため乱獲が止まりません。<br>
              つぎに、アフリカの人口増加や経済開発にともなって、彼らが暮らすサバンナや低木林が農地・放牧地に変えられてしまったことも大ダメージです。住処を追われるだけでなく、エリアが道路などでバラバラに分断されることで、繁殖のチャンス自体が減ってしまっています。」<br><br>
             ----人が原因なんですね。密猟ですかあ。密猟？<br><br>
              あなたの頭に、また疑問が浮かびました。

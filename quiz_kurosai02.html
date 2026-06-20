@@ -38,7 +38,7 @@
 <div id="game-screen" class="card">
     <h1> クロサイからの依頼 その2</h1>
     <br>
-    ----もし、この大きな植木屋さんが仕事をしなくなったら森はどうなるのでしょうか。サバンナはうっそうとした藪になってしまうのではないでしょうか！
+    ----もし、この大きな植木屋さんが仕事をしなくなったら森はどうなるのでしょうか。 きっと、サバンナはうっそうとした藪になってしまうのではないでしょうか！
     それは大変!  何が大変？<br>
     <br>
     <div class="instruction">  <strong>【問題】 </strong>サバンナが藪になってしまうと、何が起きるでしょうか。以下の三つの内、間違っているものが一つあります。 </div>
@@ -58,23 +58,36 @@
     クロサイ は、じめん の くさ を たべる シロサイ とは ちがって、おもに ひくい き の えだ や は、かじつ を たべる ので、サバンナ が き で うめつくされる のを ふせいでお います。
     だから、もし クロサイ が いなく なると、ひくい き が のびほうだい に なって みとおし の わるい うっそう と した やぶ に かわって しまいます。
     すると、ひろい 草原 を 好む シマウマ や ガゼル、それらを かる ライオン や チーター といった ほかの どうぶつたち が いきづらく なって しまう の です。
-    そして、やぶ を 好む ツェツェバエ などの こんちゅう の せいそくいき が ひろがり、ねむりびょう などの かんせんしょう の きょうい が ひろがって しまいます。
+    接着して、やぶ を 好む ツェツェバエ などの こんちゅう の せいそくいき が ひろがり、ねむりびょう などの かんせんしょう の きょうい が ひろがって しまいます。
 </div>
 
 <script>
+if (typeof window.speechSynthesis !== 'undefined') {
+    window.speechSynthesis.getVoices();
+    if (window.speechSynthesis.onvoiceschanged !== undefined) {
+        window.speechSynthesis.onvoiceschanged = function() { window.speechSynthesis.getVoices(); };
+    }
+}
+
 function playText(id) {
+    if (typeof window.speechSynthesis === 'undefined') return;
     window.speechSynthesis.cancel();
+    
     const element = document.getElementById(id);
     if (element) {
-        const utterance = new SpeechSynthesisUtterance(element.innerText);
-        utterance.lang = 'ja-JP';
-        utterance.rate = 0.95;
-        window.speechSynthesis.speak(utterance);
+        setTimeout(function() {
+            const utterance = new SpeechSynthesisUtterance(element.innerText);
+            utterance.lang = 'ja-JP';
+            utterance.rate = 0.95;
+            window.speechSynthesis.speak(utterance);
+        }, 10);
     }
 }
 
 function stopText() {
-    window.speechSynthesis.cancel();
+    if (typeof window.speechSynthesis !== 'undefined') {
+        window.speechSynthesis.cancel();
+    }
 }
 
 function selectChoice(choice) {
@@ -108,7 +121,7 @@ function judge(choice) {
             <br><br>
              あなたは、クロサイの前にある解説文に気づしました。<br><br>
             「クロサイは、地面の草を食べるシロサイとは違って、主に低木の枝や葉、果実を食べるので、サバンナが木で埋め尽くされるのを防いでいるのです。
-            だから、もしクロサイがいなくなると、低木が伸び放題になって見通しの悪い鬱蒼とした藪に変わってしまいます。<br>
+            だから、もしクロサイがいなくなると、低木が伸び放題になって見通しの悪い鬱蒼とした藪に変わってしまいます。
             すると、広い草原を好むシマウマやガゼル、それらを狩るライオンやチーターといった他の動物たちが生きづらくなっていまうのです。<br>
             そして、藪を好むツェツェバエなどの昆虫の生息域が広がり、眠り病などの感染症の脅威がひろがってしまいます。<br>
              また、クロサイは移動距離が長く、食べた植物の種を糞と一緒に遠くまで運ぶ仕事もしています。種は栄養たっぷりの糞の肥料に包まれて地面に落とされるから、発芽率がとても高いことが知られています。
@@ -118,11 +131,11 @@ function judge(choice) {
             大きなクロサイが消えることは、実は足元にいる数え切れないほどの小さな命のインフラを破壊してしまうのです。<br><br>
              もしクロサイが絶滅してしまったら、アフリカの生態系はドミノ倒しのようにバランスを崩してしまいます。
             一度絶滅してしまったら、人間の手で元に戻すのは簡単ではありません。」<br><br>
-             視線を感じてふと顔を上げると、クロサイがこちらを見ていました。まるであなたの心に話しかけているようでした。<br><br>
-
-            ----あなたたちがいなくなると大変なことになるのは、わかりました。ではクロサイさん、あなたたちは、なぜ絶滅しそうなのか。その原因を教えてください。<br><br>
+             あなたは、視線を感じてふと顔を上げると、クロサイがあなたの方を見ていました。まるであなたの心に話しかけているようでした。<br><br>
+            「私たちは、絶滅の危機に瀕しています。どうか助けてください。」<br><br>
+            ----わかりました。なんとかしましょう。ではクロサイさん、まずあなたたちは、なぜ絶滅しそうなのか。その原因を教えてください。<br><br>
              そこまで考えて、あなたの頭にもやもやとした疑問が浮かびました。<br><br>
-            --え！？　ひょっとして…
+            --ひょっとして…
             </div>
             <a href="quiz_kurosai03.html" class="nav-btn">つぎへ</a>
             <a href="manager.html" class="nav-btn">🔙 育てる動物を選ぶ画面に戻る</a>
