@@ -7,37 +7,74 @@
 <meta name="justsystems:DeviceType" content="SmartPhoneV">
 <title>動物を救おう</title>
 <style>
+<!--
     :root { --main-color: #4a6741; --correct-color: #2e7d32; --wrong-color: #c62828; }
-    body{ font-family: sans-serif; background: #f0f2f0; margin: 0; padding: 20px; }
-    .card{ background: white; padding: 25px; border-radius: 20px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); }
-    h1{ font-size: 1.2rem; color: var(--main-color); text-align: center; }
-    .instruction{ background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 20px; font-size: 0.9rem; line-height: 1.5; border: 1px solid #ddd; }
+    body{
+	font-family: sans-serif; background: #f0f2f0; margin: 0; padding: 20px;
+}
+    .card{
+	background: white; padding: 25px; border-radius: 20px; box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+    h1{
+	font-size: 1.2rem; color: var(--main-color); text-align: center;
+}
+    .instruction{
+	background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 20px; font-size: 0.9rem; line-height: 1.5; border: 1px solid #ddd;
+}
     
-    .choice-btn{ 
+    .choice-btn{
+	 
         width: 100%; padding: 18px; margin-bottom: 12px; background: white; border: 2px solid #ddd; border-radius: 12px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: all 0.1s ease;
     }
-    .choice-btn:active { background-color: #e0e0e0; transform: scale(0.97); }
+    .choice-btn:active{
+	background-color: #e0e0e0; transform: scale(0.97);
+}
 
-    .audio-btn { padding: 12px 20px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: all 0.1s ease; }
-    .btn-play { background: #4CAF50; color: white; }
-    .btn-play:active { background: #388E3C; transform: scale(0.95); }
-    .btn-stop { background: #f44336; color: white; }
-    .btn-stop:active { background: #d32f2f; transform: scale(0.95); }
+    .audio-btn{
+	padding: 12px 20px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: all 0.1s ease;
+}
+    .btn-play{
+	background: #4CAF50; color: white;
+}
+    .btn-play:active{
+	background: #388E3C; transform: scale(0.95);
+}
+    .btn-stop{
+	background: #f44336; color: white;
+}
+    .btn-stop:active{
+	background: #d32f2f; transform: scale(0.95);
+}
 
-    .nav-btn { display: inline-block; padding: 12px 25px; background: #4a6741; color: white; text-decoration: none; border-radius: 25px; font-weight: bold; margin-bottom: 20px; transition: all 0.1s ease; }
-    .nav-btn:active { background: #33482d; transform: scale(0.95); }
+    .nav-btn{
+	display: inline-block; padding: 12px 25px; background: #4a6741; color: white; text-decoration: none; border-radius: 25px; font-weight: bold; margin-bottom: 20px; transition: all 0.1s ease;
+}
+    .nav-btn:active{
+	background: #33482d; transform: scale(0.95);
+}
 
-    #result-area{ display: none; text-align: center; padding: 20px; border-radius: 15px; margin-top: 10px; }
-    .judge-mark{ font-size: 3rem; font-weight: bold; margin-bottom: 10px; }
-    .retry-btn{ margin-top: 15px; padding: 10px 20px; background: #666; color: white; border: none; border-radius: 5px; }
-    .retry-btn:active { background: #444; transform: scale(0.95); }
+    #result-area{
+	display: none; text-align: center; padding: 20px; border-radius: 15px; margin-top: 10px;
+}
+    .judge-mark{
+	font-size: 3rem; font-weight: bold; margin-bottom: 10px;
+}
+    .retry-btn{
+	margin-top: 15px; padding: 10px 20px; background: #666; color: white; border: none; border-radius: 5px;
+}
+    .retry-btn:active{
+	background: #444; transform: scale(0.95);
+}
+-->
 </style>
 </head>
 <body>
 
 <div id="game-screen" class="card">
-    <h1> クロサイからの依頼 その3</h1>
-    ---ひょっとして、その原因は私たち人間にあるのでは？<br><br>
+    <h1> クロサイからの依頼 その３</h1>
+v.1.0.1<br>
+<br>
+    ----ひょっとして、その原因は私たち人間にあるのでは？<br><br>
 
     <div class="instruction">
         <strong>【問題】</strong><br>
@@ -119,14 +156,19 @@ function judge(choice) {
             <br><br>
             ナイルワニがクロサイを襲うケースは稀にはあるけど、クロサイを絶滅に追い込むほど大繁殖はしていません。
             <hr><br>
+<div style="color: #000000 !important; margin-top: 20px;">
+
              あなたは、クロサイの前に、絶滅に関する解説文を見つけました。<br><br>
-            「クロサイの命を最も脅かしているのが、特徴的なあの「角」を狙った容赦ない密猟です。実は、サイの角は人間の爪や髪の毛と同じケラチンという成分でできていて、科学的な薬効は認められていないのに、闇市場では超高値で取引されるため乱獲が止まりません。<br>
-             つぎに、アフリカの人口増加や経済開発にともなって、彼らが暮らすサバンナや低木林が農地・放牧地に変えられてしまったことも大ダメージです。住処を追われるだけでなく、エリアが道路などでバラバラに分断されることで、繁殖のチャンス自体が減ってしまっています。」<br><br>
-            ----人が原因なんですね。密猟ですかあ。密猟？<br><br>
-             あなたの頭に、また疑問が浮かびました。
+            「クロサイの命を最も脅かしているのが、特徴的なあの「角」を狙った容赦ない密猟です。
+クロサイの角は「解熱や解毒に効く万能薬」と信じられていたり、一部の国で装飾品として珍重されたりしてきた歴史があります。
+実は、サイの角は人間の爪や髪の毛と同じケラチンという成分でできていて、科学的な薬効は認められていないのに、闇市場では超高値で取引されるため乱獲が止まりません。<br>
+             また、アフリカの人口増加や経済開発にともなって、クロサイが暮らすサバンナや低木林が農地・放牧地に変えられてしまったことも大ダメージです。
+住処を追われるだけでなく、エリアが道路などでバラバラに分断されることで、繁殖のチャンス自体が減ってしまっています。」<br><br>
+            ----わたしたち人間が原因なんですね。じゃあ、クロサイを絶滅から救う方法を考えるのもわたしたち人間の責任じゃないですか。<br><br>
+             いったいどんな方法があるのでしょうか。これはあなたへの宿題です。
             </div>
-            <a href="quiz_kurosai04.html" class="nav-btn">つぎへ</a>
-            <a href="manager.html" class="nav-btn">🔙 育てる動物を選ぶ画面に戻る</a>
+            </div>
+            <a href="INTERPRITER.html" class="nav-btn">🔙 観に行く動物を選ぶ</a>
         `;
     } else {
         area.style.background = "#ffebee";
